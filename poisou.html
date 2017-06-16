@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+	<style type="text/css">
+		body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+		#map {height:100%;width:100%;}
+		#r-result{width:100%;}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=rOPtzwqHzM504KAVfkGaLtgOLZ4FQtB4"></script>
+	<script type="text/javascript" src="script/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="script/bootstrap.min.js"></script>
+	<script type="text/javascript" src="script/bootstrap3-typeahead.js"></script>
+	<title>POI搜索</title>
+</head>
+
+<body>
+	<div id="map"></div>
+	<div style="position: absolute; left: 20px; top: 20px; overflow: hidden; height: 800px; width: 500px" >
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="panel-title">页面js 普通</div>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-4">
+						<input id="local_data" autocomplete="off" data-provide="typeahead" type="text" class="input-sm form-control" placeholder="请输入(本地Array数据)" />
+					</div>
+					<div class="col-md-4">
+						<button class="btn btn-success" id="look_up_array">LookUp</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+<script>
+	var map = new BMap.Map("map");
+	map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);
+
+	function clickOnMap(e) {
+		alert(e.point.lng + e.point.lat);
+	}
+	map.addEventListener("click", clickOnMap);
+
+	var cachedata = [];
+	$("#local_data").typeahead({
+		source: function(query, process) {
+			cachedata.length = 0;
+			console.log(query);
+			$.post("http://localhost:30056/api/query/cache", { code: query }, function (e) {
+				var array = [];
+				for (var i = 0;i < e.length;i++) {
+					cachedata.push(e[i]);
+					array.push(e[i]);
+				}
+				process(array);
+			});
+		},
+		items: 10,
+		updater: function (item) {
+				return item;//这里一定要return，否则选中不显示，外加调用display的时候null reference错误。
+		},
+		displayText: function (item) {
+				return item;//返回字符串
+		},
+		afterSelect: function (item) {
+				//选择项之后的事件 ，item是当前选中的。
+				console.log(item);//打印对应的id
+		},
+		delay: 500//延迟时间
+	});
+	$("#look_up_array").click(function () {
+			$("#local_data").typeahead("lookup", '选');
+	});
+	$("#get_value_array").click(function () {
+			var val = $("#local_data").typeahead("getActive");
+			console.log(val);
+	});
+		
+</script>
+
+</html>
