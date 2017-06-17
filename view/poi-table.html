@@ -1,0 +1,113 @@
+<script type="text/javascript">  
+    var datagrid;  //定义全局变量  
+    var editRow = "";//定义当前编辑的行  
+    datagrid = $("#poi").datagrid({  
+        title: "POI管理",  
+        border: true,  
+        locale: "zh_CN",  
+        iconCls: 'icon-save',  
+        striped: true,  
+        sortOrder: "desc",  
+        collapsible: false,  
+        url: "http://localhost:30056/find",  
+        queryParams: { dtNumber:"", dtTitle: ""},  
+        columns: [[  
+            { field: 'ID', title: 'ID', width: '5%', algin: 'center' },  
+            { field: 'dtNumber', title: '编号', width: '10%', align: 'center' },  
+            { field: 'dtTitle', title: '标题', width: '25%', align: 'center' },  
+            { field: 'dtTheme', title: '主题', width: '10%', align: 'center' },  
+            { field: 'dtFitTime', title: '适合时段', width: '10%', align: 'center' },  
+            { field: 'AddTime', title: '添加时间', width: '10%', align: 'center' },  
+            {  
+                field: "operateID", title: '操作',width:'27%', align: 'center', formatter: function (value, rowData, rowIndex) {  
+                    return "a";  
+                }  
+            }  
+        ]],  
+        toolbar: [{  
+            id: 'btnAdd',  
+            text: "添加",  
+            iconCls: 'icon-add',  
+            handler: function () {  
+                // $("#winAdd").window("open");
+                console.log("hahaha");
+                $('#dlg').dialog('open').dialog('setTitle','New User');
+            }  
+        }, {  
+            id: 'btnEdit',  
+            text: "修改",  
+            iconCls: 'icon-edit',  
+            handler: function () {  
+                alert("修改");  
+            }  
+        }],  
+        pagination: true,//表示在datagrid设置分页              
+        rownumbers: false,  
+        singleSelect: true,  
+    });  
+    $('#event').datagrid('getPager').pagination({  
+        pageSize: 10,  
+        pageNumber: 1,  
+        pageList: [10, 20, 30, 40, 50],  
+        beforePageText: '第',//页数文本框前显示的汉字   
+        afterPageText: '页    共 {pages} 页',  
+        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录',  
+    });  
+
+    //条件查询  
+    function Search() {  
+        var queryParameter = $('#event').datagrid("options").queryParams;  
+        queryParameter.dtNumber = $("#dtNumber").val();  
+        queryParameter.dtTitle = $("#dtTitle").val();  
+        $("#event").datagrid("reload");  
+    }  
+</script>  
+  
+  
+<!--条件查询 -->  
+<div data-options="region:'north',split:false,border:false,title:'查询条件',collapsed:false,iconCls:'icon-search'" style="height:60px;margin:5px 5px 0 5px">  
+        产品编号:<input type="text"  name="dtNumber" id="dtNumber" class="easyui-validatebox" maxlength="10" style="height:15px;margin:0 5px 0 5px" />  
+        产品标题:<input type="text"  name="dtTitle" id="dtTitle" class="easyui-validatebox" maxlength="10" style="height:15px;margin:0 5px 0 5px" />  
+       &nbsp;&nbsp;<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'"  onclick="Search()">查询</a>  
+</div>  
+  
+<!--数据展示 -->  
+<div data-options="region:'center',fit:true,split:false,border:false" >  
+    <table id="poi" style="width:100%"></table>  
+</div>  
+
+<div id="dlg" class="easyui-dialog" style="width:400px;height:280px;padding:10px 20px"
+		closed="true" buttons="#dlg-buttons">
+	<div class="ftitle">User Information</div>
+	<form id="fm" method="post">
+		<div class="fitem">
+			<label>First Name:</label>
+			<input name="firstname" class="easyui-validatebox" required="true">
+		</div>
+		<div class="fitem">
+			<label>Last Name:</label>
+			<input name="lastname" class="easyui-validatebox" required="true">
+		</div>
+		<div class="fitem">
+			<label>Phone:</label>
+			<input name="phone">
+		</div>
+		<div class="fitem">
+			<label>Email:</label>
+			<input name="email" class="easyui-validatebox" validType="email">
+		</div>
+	</form>
+</div>
+<div id="dlg-buttons">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">Save</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">Cancel</a>
+</div>  
+
+<script>
+    function newUser(){
+        console.log("hahaha");
+        $('#dlg').dialog('open').dialog('setTitle','New User');
+	// $('#fm').form('clear');
+    //     url = 'save_user.php';
+    }
+</script>
