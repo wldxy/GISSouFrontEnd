@@ -8,6 +8,43 @@
 		body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
 		#map {height:100%;width:100%;}
 		#r-result{width:100%;}
+		.res-block {
+			display: block;
+			position: absolute;
+			background-color: white;
+			border: 2px solid #f1f1f1;
+			margin-top: 45px;
+			width: 300px;
+			transition: .5s;
+		}
+		.res-block.active {
+			display: block;
+		}
+		.res-block ul {
+			margin: 10px -20px;
+			width: 100%;
+		}
+		.res-block li {
+			list-style-type: none;
+			background-color: white;
+			margin: 10px;
+			height: 50px;
+			cursor: pointer;
+			transition: .5s;
+		}
+		.res-block li:hover {
+			background-color: #f1f1f1;
+		}
+		.res-block > ul > li > div {
+			position: relative;
+			top: 16px;
+			width: 20px;
+			height: 20px;
+			background-color: #0088f5;
+			border-radius: 50%;
+			text-align: center;
+			color: white;
+		}
 	</style>
 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=rOPtzwqHzM504KAVfkGaLtgOLZ4FQtB4"></script>
 	<script type="text/javascript" src="script/jquery-3.2.1.min.js"></script>
@@ -22,7 +59,7 @@
 </head>
 
 <body>
-	<div id="map"></div>
+	<!--<div id="map"></div>-->
 		
 	<div style="position: absolute; left: 20px; top: 20px; overflow: hidden; height: 800px; width: 500px" >
     
@@ -47,6 +84,12 @@
     </div>
   </div>
 </div>-->
+
+		<div class="res-block">
+			<ul>
+				<li><div>1</div></li>
+			</ur>
+		</div>
 
 		<div class="ui active tab" data-tab="gis">
 
