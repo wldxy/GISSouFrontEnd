@@ -56,6 +56,8 @@
 				.tab();
 		});
 	</script>
+	<script type="text/javascript" src="script/sou.js"></script>
+	<script type="text/javascript" src="script/cache.js"></script>
 	<title>GISSou</title>
 </head>
 
@@ -69,10 +71,10 @@
 			<a class="item" data-tab="event">事件搜索</a>
 		</div>
 
-		<div class="res-block active">
-			<ul>
-				<li onclick="ShowDetails()"><div>1</div></li>
-				<li onclick="ShowDetails()"><div>2</div></li>
+		<div id="detail" class="res-block">
+			<ul id="detail_ul">
+				<li onclick="ShowDetails(this.value)" value=0><div>1</div></li>
+				<li onclick="ShowDetails(this.value)" value=1><div>2</div></li>
 			</ul>
 		</div>
 
@@ -143,143 +145,7 @@
 			infowindow.open(map, marker);
 		});
 	}
-	
-	function ShowDetails() {
-		console.log("hahah");
-		google.maps.event.trigger(marker, "click");
-	}
 
-	$('#poi').search({
-    // type          : 'category',
-    minCharacters : 1,
-    apiSettings   : {
-      onResponse: function(response) {
-        // var result = {
-        //     results : {}
-        // };
-        // translate GitHub API response to work with search
-        // $.each(githubResponse.items, function(index, item) {
-        //   var
-        //     language   = item.language || 'Unknown',
-        //     maxResults = 8
-        //   ;
-        //   if(index >= maxResults) {
-        //     return false;
-        //   }
-        //   // create new language category
-        //   if(response.results[language] === undefined) {
-        //     response.results[language] = {
-        //       name    : language,
-        //       results : []
-        //     };
-        //   }
-        //   // add result to category
-        //   response.results[language].results.push({
-        //     title       : item.name,
-        //     description : item.description,
-        //     url         : item.html_url
-        //   });
-        // });
-		console.log(response);
-		var result = [];
-
-		for (let e in response) {
-			console.log(response[e]);
-			result.push({
-				title: response[e],
-				description: response[e]
-			});
-		}				
-		// for (var i = 0;i < response.length;i++) {
-		// 	console.log(response[i]);
-		// 	result.push({
-		// 		title: response[i],
-		// 		description: response[i]
-		// 	});
-		// }
-		console.log(result);
-
-        return result;
-      },
-      url: 'http://localhost:30056/api/query/cache?code={query}',
-			// method: "post",
-    }
-  });
-
-	$('#event').search({
-    // type          : 'category',
-    minCharacters : 1,
-    apiSettings   : {
-      onResponse: function(response) {
-        // var result = {
-        //     results : {}
-        // };
-        // translate GitHub API response to work with search
-        // $.each(githubResponse.items, function(index, item) {
-        //   var
-        //     language   = item.language || 'Unknown',
-        //     maxResults = 8
-        //   ;
-        //   if(index >= maxResults) {
-        //     return false;
-        //   }
-        //   // create new language category
-        //   if(response.results[language] === undefined) {
-        //     response.results[language] = {
-        //       name    : language,
-        //       results : []
-        //     };
-        //   }
-        //   // add result to category
-        //   response.results[language].results.push({
-        //     title       : item.name,
-        //     description : item.description,
-        //     url         : item.html_url
-        //   });
-        // });
-				console.log(response);
-				var result = [];
-
-				for (let e in response) {
-					console.log(response[e]);
-					result.push({
-						title: response[e],
-						description: response[e]
-					});
-				}				
-				// for (var i = 0;i < response.length;i++) {
-				// 	console.log(response[i]);
-				// 	result.push({
-				// 		title: response[i],
-				// 		description: response[i]
-				// 	});
-				// }
-				console.log(result);
-
-        return result;
-      },
-      url: 'http://localhost:30056/api/query/cache?code={query}',
-			// method: "post",
-    }
-  });
-
-</script>
-
-<script>
-	$(document).ready(function(){
-		$('#event').bind("keypress", function(event) {
-			if (event.keyCode == "13") {
-				console.log("event 1");
-				var code = $("#eventinput").val());
-			}
-		});
-		$('#poi').bind("keypress", function(event) {
-			if (event.keyCode == "13") {
-				console.log("event 2");
-				var code = $("#poiinput").val();
-			}
-		});
-	});
 </script>
 
 <script async defer
